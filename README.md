@@ -8,4 +8,8 @@ Crypto Price Tracker App with REACT NATIVE
 yarn or npm install 
 
 # Launch the app with :
-yarn start
+yarn start 
+
+# or launch the app with expo by typing:
+expo start 
+
