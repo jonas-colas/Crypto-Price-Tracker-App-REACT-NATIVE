@@ -1,10 +1,12 @@
-import React, {useRef, useMemo, useState} from 'react';
+import React, {useRef, useMemo, useState, useEffect} from 'react';
 import { StyleSheet, Text, View, FlatList, SafeAreaView } from 'react-native';
 import ListItem from './components/ListItem';
 import Chart from './components/Chart';
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
-import { SAMPLE_DATA } from './assets/data/sampleData';
+// import { SAMPLE_DATA } from './assets/data/sampleData';
+import { getMarketData } from './services/cryptoService';
+
 
 const ListHeader = () => (
   <>
@@ -16,7 +18,19 @@ const ListHeader = () => (
 )
 
 export default function App() {
+  const [data, setData] = useState([]);
   const [selectedCoinData, setSelectedCoinData] = useState(null);
+
+  useEffect(() => {
+    const fetchMarketData = async () => {
+      const marketData = await getMarketData();
+      setData(marketData);
+    }
+
+    fetchMarketData();
+  }, []);
+
+  // console.log(data);
 
   const bottomSheetModalRef = useRef(null);
 
@@ -31,7 +45,7 @@ export default function App() {
       <SafeAreaView style={styles.container}>
         <FlatList 
           keyExtractor={(item) => item.id} 
-          data={SAMPLE_DATA} 
+          data={data} 
           renderItem={( {item} ) => (
             <ListItem name={item.name} symbol={item.symbol} 
             logoUrl={item.image} currentPrice={item.current_price} 

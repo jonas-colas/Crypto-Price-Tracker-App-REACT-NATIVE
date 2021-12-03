@@ -10,8 +10,10 @@
   "dependencies": {
     "@gorhom/bottom-sheet": "^3",
     "@rainbow-me/animated-charts": "^1.0.0-alpha.6",
+    "axios": "^0.24.0",
     "expo": "~43.0.2",
     "expo-status-bar": "~1.1.0",
+    "moment": "^2.29.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
