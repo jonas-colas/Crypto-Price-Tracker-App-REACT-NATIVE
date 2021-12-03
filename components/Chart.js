@@ -1,12 +1,24 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, Dimensions } from 'react-native'
-import { ChartDot, ChartPath, ChartPathProvider } from '@rainbow-me/animated-charts';
+import { ChartDot, ChartPath, ChartPathProvider, ChartYLabel } from '@rainbow-me/animated-charts';
 
 export const {width: SIZE} = Dimensions.get('window');
 
 const Chart = ({currentPrice, name, logoUrl, symbol, priceChangePercentage7d, sparkline}) => {
   
   const priceChangeColor = priceChangePercentage7d > 0 ? '#34C759' : '#FF3B30';
+
+  const formatUSD = value => {
+    'worklet';
+    if(value === ''){
+      return `$${currentPrice.toLocaleString('en-US', { currency: 'USD' })}`;
+    }
+
+    const formattedValue = `$${parseFloat(value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+
+    // return `$ ${value.toLocaleString('en-US', { currency: 'USD' })}`;
+    return formattedValue;
+  }
 
   return (
     <ChartPathProvider data={{points: sparkline, smoothingStrategy: 'bezier'}} >
@@ -22,9 +34,12 @@ const Chart = ({currentPrice, name, logoUrl, symbol, priceChangePercentage7d, sp
           </View>
           
           <View style={styles.lowerTitles}>
-            <Text style={styles.boldTitle}>
+            <ChartYLabel format={formatUSD}
+              style={styles.boldTitle} />
+
+            {/* <Text style={styles.boldTitle}>
               ${ currentPrice.toLocaleString('en-US', { currency: 'USD' }) }
-            </Text>
+            </Text> */}
             <Text style={[styles.title, {color: priceChangeColor}]}>
               {priceChangePercentage7d.toFixed(2)}%
             </Text>
@@ -33,7 +48,7 @@ const Chart = ({currentPrice, name, logoUrl, symbol, priceChangePercentage7d, sp
 
         <View style={styles.chartLineWrapper}>
           <ChartPath height={SIZE / 2} stroke="black" width={SIZE} />
-          <ChartDot style={{ backgroundColor: 'blue' }} />
+          <ChartDot style={{ backgroundColor: 'black' }} />
         </View>
       </View>
     </ChartPathProvider>
@@ -45,7 +60,8 @@ const styles = StyleSheet.create({
     marginVertical: 16
   },
   chartLineWrapper: {
-    marginTop: 40
+    marginTop: 40,
+    color: "black"
   },
   titlesWrapper: {
     marginHorizontal: 16
@@ -75,7 +91,8 @@ const styles = StyleSheet.create({
   },
   boldTitle: {
     fontSize: 24,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    color: "black"
   },
   title: {
     fontSize: 18,
